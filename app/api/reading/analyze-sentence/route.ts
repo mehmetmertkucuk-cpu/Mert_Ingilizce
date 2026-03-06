@@ -92,9 +92,7 @@ function demoAnalyze(sentence: string) {
     "must",
   ])
   let verbIdx = tokens.findIndex((t) => verbLike.has(t.toLowerCase().replace(/[.,;:!?()"']/g, "")))
-  if (verbIdx === -1) {
-    verbIdx = tokens.length === 0 ? 0 : Math.min(1, tokens.length - 1)
-  }
+  if (verbIdx === -1) verbIdx = Math.min(1, tokens.length)
   const subject = tokens.slice(0, verbIdx).join(" ") || tokens[0] || "—"
   const verb = tokens[verbIdx] || "—"
   const object = tokens.slice(verbIdx + 1).join(" ") || "—"
