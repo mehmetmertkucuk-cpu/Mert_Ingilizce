@@ -44,7 +44,7 @@ const GenerateResponseSchema = z.object({
 export const runtime = "nodejs"
 
 function env(name: string): string | undefined {
-  const v = process.env[name]
+  const v = process.env["GEMINI_API_KEY"]
   return v && v.trim() ? v.trim() : undefined
 }
 
