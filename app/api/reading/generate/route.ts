@@ -281,7 +281,7 @@ export async function POST(req: Request) {
 
     const candidate = extractJson(raw)
     const validated = GenerateResponseSchema.parse({
-      ...candidate,
+      ...(typeof candidate === 'object' && candidate !== null ? candidate : {}),
       meta: {
         ...(typeof (candidate as any)?.meta === "object" && (candidate as any)?.meta ? (candidate as any).meta : {}),
         level: parsedReq.level,
