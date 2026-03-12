@@ -44,7 +44,8 @@ const GenerateResponseSchema = z.object({
 export const runtime = "nodejs"
 
 function env(name: string): string | undefined {
-  const v = process.env[name]
+  // Önce tam ismi arar, bulamazsa VITE_ ön ekini kaldırıp tekrar arar
+  const v = process.env[name] || process.env[name.replace("VITE_", "")]
   return v && v.trim() ? v.trim() : undefined
 }
 
