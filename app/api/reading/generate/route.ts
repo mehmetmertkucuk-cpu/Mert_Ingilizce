@@ -44,7 +44,7 @@ const GenerateResponseSchema = z.object({
 export const runtime = "nodejs"
 
 function env(name: string): string | undefined {
-  const v = process.env["GEMINI_API_KEY"]
+  const v = process.env[name]
   return v && v.trim() ? v.trim() : undefined
 }
 
@@ -62,8 +62,8 @@ function extractJson(text: string): unknown {
 }
 
 async function callGemini(jsonPrompt: string): Promise<string> {
-  const apiKey = env("GOOGLE_API_KEY")
-  if (!apiKey) throw new Error("GOOGLE_API_KEY is not set")
+  const apiKey = env("VITE_GEMINI_API_KEY") || env("GEMINI_API_KEY")
+  if (!apiKey) throw new Error("Gemini_Api_Key is not set")
 
   const modelName = env("GEMINI_MODEL") ?? "gemini-1.5-flash"
   const genAI = new GoogleGenerativeAI(apiKey)
@@ -90,8 +90,8 @@ async function callGemini(jsonPrompt: string): Promise<string> {
 }
 
 function pickProvider(requested?: "gemini"): "gemini" | "demo" {
-  if (requested === "gemini") return env("GOOGLE_API_KEY") ? "gemini" : "demo"
-  if (env("GOOGLE_API_KEY")) return "gemini"
+  if (requested === "gemini") return env("Gemini_Api_Key") ? "gemini" : "demo"
+  if (env("Gemini_Api_Key")) return "gemini"
   return "demo"
 }
 
@@ -299,7 +299,7 @@ export async function POST(req: Request) {
         error: "READING_GENERATION_FAILED",
         message,
         hint:
-          "Set GOOGLE_API_KEY (and optionally GEMINI_MODEL) to enable full AI generation.",
+          "Set Gemini_Api_Key (and optionally GEMINI_MODEL) to enable full AI generation.",
       },
       { status: 500 },
     )
