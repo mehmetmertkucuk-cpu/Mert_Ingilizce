@@ -212,11 +212,11 @@ export function ReadingScreen() {
     setIsGenerating(true)
     setPractice(null)
     try {
-      const res = await fetch("/api/generate-reading", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ difficulty: level, topic }),
-      })
+const res = await fetch("/api/reading/generate", {
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({ level: level, topic: topic }), // difficulty yerine level kullanmıştık
+})
       if (!res.ok) {
         const body = await res.json().catch(() => null)
         throw new Error(body?.message ?? `Request failed (${res.status})`)
