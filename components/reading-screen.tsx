@@ -269,10 +269,10 @@ const res = await fetch("/api/reading/generate", {
       setError(null)
       setIsAnalyzing(true)
       try {
-        const res = await fetch("/api/reading/analyze-sentence", {
+        cconst res = await fetch("/api/reading/generate", { 
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ sentence }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ level: level, topic: topic }),
         })
         if (!res.ok) {
           const body = await res.json().catch(() => null)
