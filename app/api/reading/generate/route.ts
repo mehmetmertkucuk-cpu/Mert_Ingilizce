@@ -63,8 +63,8 @@ function extractJson(text: string): unknown {
 }
 
 async function callGemini(jsonPrompt: string): Promise<string> {
-  const apiKey = env("VITE_GEMINI_API_KEY") || env("GEMINI_API_KEY")
-  if (!apiKey) throw new Error("Gemini_Api_Key is not set")
+  const apiKey = env("GEMINI_API_KEY") || env("GEMINI_API_KEY")
+  if (!apiKey) throw new Error("GEMINI_API_KEY is not set")
 
   const modelName = env("GEMINI_MODEL") ?? "gemini-1.5-flash"
   const genAI = new GoogleGenerativeAI(apiKey)
@@ -91,8 +91,8 @@ async function callGemini(jsonPrompt: string): Promise<string> {
 }
 
 function pickProvider(requested?: "gemini"): "gemini" | "demo" {
-  if (requested === "gemini") return env("Gemini_Api_Key") ? "gemini" : "demo"
-  if (env("Gemini_Api_Key")) return "gemini"
+  if (requested === "gemini") return env("GEMINI_API_KEY") ? "gemini" : "demo"
+  if (env("GEMINI_API_KEY")) return "gemini"
   return "demo"
 }
 
@@ -300,7 +300,7 @@ export async function POST(req: Request) {
         error: "READING_GENERATION_FAILED",
         message,
         hint:
-          "Set Gemini_Api_Key (and optionally GEMINI_MODEL) to enable full AI generation.",
+          "Set GEMINI_API_KEY (and optionally GEMINI_MODEL) to enable full AI generation.",
       },
       { status: 500 },
     )
